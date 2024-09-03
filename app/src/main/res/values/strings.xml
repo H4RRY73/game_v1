@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">game</string>
+    <string name="question">Es Cajamarca la capital del Perú??</string>
+    <string name="rpta_si">Si</string>
+    <string name="rpta_no">No</string>
+    <string name="siguiente">Siguiente</string>
+</resources>
