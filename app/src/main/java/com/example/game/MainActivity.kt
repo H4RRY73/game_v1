@@ -1,3 +1,4 @@
+// MainActivity.kt
 package com.example.game
 
 import android.os.Bundle
@@ -12,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 class MainActivity : AppCompatActivity() {
     lateinit var questions: ArrayList<Question>
     var position = 0
+    var score = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,14 +31,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadQuestion() {
         questions = ArrayList()
-        var question = Question("¿Es Chile la capital del Mundo?", false)
-        questions.add(question)
-
+        questions.add(Question("¿Es Chile la capital del Mundo?", false))
         questions.add(Question("¿Es Chile la capital de Lima?", false))
         questions.add(Question("¿Es Santiago la capital de Chile?", true))
         questions.add(Question("¿Es Buenos Aires la capital de Argentina?", true))
         questions.add(Question("¿Es Quito la capital de Chile?", false))
-
     }
 
     private fun setupViews() {
@@ -47,25 +46,34 @@ class MainActivity : AppCompatActivity() {
 
         tvQuestion.text = questions[position].sentence
 
-        btYes.setOnClickListener{
-            if (questions[position].answer){
-                Toast.makeText(this,"Respuesta correcta!!!!",Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(this,"Respuesta incorrecta!!!!",Toast.LENGTH_SHORT).show()
+        btYes.setOnClickListener {
+            if (questions[position].answer) {
+                score++
+                Toast.makeText(this, "Respuesta correcta!!!!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Respuesta incorrecta!!!!", Toast.LENGTH_SHORT).show()
             }
         }
 
-        btNo.setOnClickListener{
-            if (!questions[position].answer){
-                Toast.makeText(this,"Respuesta correcta!!!!",Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(this,"Respuesta incorrecta!!!!",Toast.LENGTH_SHORT).show()
+        btNo.setOnClickListener {
+            if (!questions[position].answer) {
+                score++
+                Toast.makeText(this, "Respuesta correcta!!!!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Respuesta incorrecta!!!!", Toast.LENGTH_SHORT).show()
             }
         }
 
-        btNext.setOnClickListener{
+        btNext.setOnClickListener {
             position++
-            tvQuestion.text = questions[position].sentence
+            if (position < questions.size) {
+                tvQuestion.text = questions[position].sentence
+            } else {
+                Toast.makeText(this, "Has terminado! Tu puntaje es: $score", Toast.LENGTH_LONG).show()
+                position = 0
+                score = 0
+                tvQuestion.text = questions[position].sentence
+            }
         }
     }
 }
