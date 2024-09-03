@@ -1,6 +1,7 @@
 // MainActivity.kt
 package com.example.game
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -14,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var questions: ArrayList<Question>
     var position = 0
     var score = 0
+    lateinit var nickname: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +26,8 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        nickname = intent.getStringExtra("NICKNAME") ?: "Player"
 
         loadQuestion()
         setupViews()
@@ -69,10 +73,11 @@ class MainActivity : AppCompatActivity() {
             if (position < questions.size) {
                 tvQuestion.text = questions[position].sentence
             } else {
-                Toast.makeText(this, "Has terminado! Tu puntaje es: $score", Toast.LENGTH_LONG).show()
-                position = 0
-                score = 0
-                tvQuestion.text = questions[position].sentence
+                val intent = Intent(this, ResultActivity::class.java)
+                intent.putExtra("NICKNAME", nickname)
+                intent.putExtra("SCORE", score)
+                startActivity(intent)
+                finish()
             }
         }
     }
